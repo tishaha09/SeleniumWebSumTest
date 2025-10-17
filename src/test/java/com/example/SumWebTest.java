@@ -50,6 +50,30 @@ public class SumWebTest {
         assertEquals("Sum = 30", output);
     }
 
+    @Test
+    public void testSumWithNegativeNumbers() throws InterruptedException {
+        String url = "file:///C:/ProgramData/Jenkins/.jenkins/workspace/SeleniumWebSumTest/src/test/resources/sum.html";
+        driver.get(url);
+
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.id("num1")));
+
+        WebElement num1 = driver.findElement(By.id("num1"));
+        WebElement num2 = driver.findElement(By.id("num2"));
+        WebElement calcBtn = driver.findElement(By.id("calcBtn"));
+        WebElement result = driver.findElement(By.id("result"));
+
+        num1.sendKeys("-10");
+        num2.sendKeys("20");
+        calcBtn.click();
+
+        Thread.sleep(1000); // wait for JS to update
+
+        String output = result.getText().trim();
+        System.out.println("Output with negative number: " + output);
+        assertEquals("Sum = 10", output);
+    }
+
     @After
     public void tearDown() {
         if (driver != null) driver.quit();
